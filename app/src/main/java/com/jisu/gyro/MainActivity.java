@@ -42,7 +42,6 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     private File recordFile;
     private FileWriter writer;
-    private static final String fileName = "file.txt";
     private int cnt=0;
 
     private boolean isFileOk() {
@@ -88,7 +87,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     private void startRecord() {
         openFile();
-        String text = "x,y,z";
+        String text = "Time,x,y,z";
 
         try {
             writer.write(text + "\r\n");
@@ -166,14 +165,14 @@ public class MainActivity extends Activity implements SensorEventListener {
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             long currentTime = System.currentTimeMillis();
             long gabOfTime = (currentTime - lastTime);
-            if (gabOfTime > 300) {
+            if (gabOfTime > 100) {
                 lastTime = currentTime;
                 x = event.values[0];
                 y = event.values[1];
                 z = event.values[2];
 
-
-                String text = x+","+y+","+z;
+                Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+                String text = timestamp+","+x+","+y+","+z;
 
                 try {
                     writer.write(text + "\r\n");
